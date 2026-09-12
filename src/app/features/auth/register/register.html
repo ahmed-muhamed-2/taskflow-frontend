@@ -1,0 +1,151 @@
+<div class="min-h-screen bg-slate-950 flex items-center justify-center px-4 py-10">
+
+  <div class="w-full max-w-md">
+
+    <!-- Logo -->
+    <div class="text-center mb-8">
+      <div
+        class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-600 shadow-lg shadow-indigo-600/30"
+      >
+        <span class="text-2xl font-bold text-white">T</span>
+      </div>
+
+      <h1 class="text-3xl font-bold text-white">
+        Create your account
+      </h1>
+
+      <p class="mt-2 text-slate-400">
+        Start managing your tasks with TaskFlow
+      </p>
+    </div>
+
+    <!-- Card -->
+    <div class="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-2xl sm:p-8">
+
+      <!-- Error -->
+      @if (errorMessage) {
+        <div
+          class="mb-5 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400"
+        >
+          {{ errorMessage }}
+        </div>
+      }
+
+      <form [formGroup]="registerForm" (ngSubmit)="register()" class="space-y-5">
+
+        <!-- Name -->
+        <div>
+          <label
+            for="name"
+            class="mb-2 block text-sm font-medium text-slate-200"
+          >
+            Full name
+          </label>
+
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            placeholder="John Doe"
+            class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+          />
+
+          @if (
+            registerForm.controls.name.touched &&
+            registerForm.controls.name.invalid
+          ) {
+            <p class="mt-1 text-sm text-red-400">
+              Please enter your name.
+            </p>
+          }
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label
+            for="email"
+            class="mb-2 block text-sm font-medium text-slate-200"
+          >
+            Email address
+          </label>
+
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="you@example.com"
+            class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+          />
+
+          @if (
+            registerForm.controls.email.touched &&
+            registerForm.controls.email.invalid
+          ) {
+            <p class="mt-1 text-sm text-red-400">
+              Please enter a valid email address.
+            </p>
+          }
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label
+            for="password"
+            class="mb-2 block text-sm font-medium text-slate-200"
+          >
+            Password
+          </label>
+
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="••••••••"
+            class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+          />
+
+          @if (
+            registerForm.controls.password.touched &&
+            registerForm.controls.password.invalid
+          ) {
+            <p class="mt-1 text-sm text-red-400">
+              Password must be at least 6 characters.
+            </p>
+          }
+        </div>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          [disabled]="isLoading"
+          class="w-full rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          @if (isLoading) {
+            Creating account...
+          } @else {
+            Create account
+          }
+        </button>
+
+      </form>
+
+      <!-- Login -->
+      <p class="mt-6 text-center text-sm text-slate-400">
+        Already have an account?
+        <a
+          routerLink="/login"
+          class="font-semibold text-indigo-400 transition hover:text-indigo-300"
+        >
+          Sign in
+        </a>
+      </p>
+
+    </div>
+
+    <p class="mt-6 text-center text-xs text-slate-500">
+      © 2026 TaskFlow. All rights reserved.
+    </p>
+
+  </div>
+
+</div>

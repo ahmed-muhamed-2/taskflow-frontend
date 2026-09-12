@@ -1,0 +1,178 @@
+<div class="mx-auto max-w-3xl">
+
+  <!-- Header -->
+  <div class="mb-8 flex items-center justify-between">
+
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900 dark:text-white">
+        Task Details
+      </h1>
+
+      <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+        View task information and manage your task.
+      </p>
+    </div>
+
+    <a
+      routerLink="/tasks"
+      class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+    >
+      ← Back
+    </a>
+
+  </div>
+
+
+  <!-- Loading -->
+  @if (isLoading()) {
+
+    <div
+      class="rounded-2xl border border-slate-200 bg-white p-10 text-center dark:border-slate-800 dark:bg-slate-900"
+    >
+      <p class="text-sm text-slate-500 dark:text-slate-400">
+        Loading task...
+      </p>
+    </div>
+
+  }
+
+
+  <!-- Error -->
+  @if (!isLoading() && errorMessage()) {
+
+    <div
+      class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-400"
+    >
+      {{ errorMessage() }}
+    </div>
+
+  }
+
+
+  <!-- Task -->
+  @if (!isLoading() && task(); as currentTask) {
+
+    <div
+      class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-8"
+    >
+
+      <!-- Title -->
+      <div class="mb-6">
+
+        <h2
+          class="text-2xl font-bold text-slate-900 dark:text-white"
+        >
+          {{ currentTask.title }}
+        </h2>
+
+        <div class="mt-3 flex flex-wrap gap-2">
+
+          <span
+            class="rounded-full px-3 py-1 text-xs font-semibold"
+            [class]="getPriorityClass(currentTask.priority)"
+          >
+            {{ currentTask.priority }}
+          </span>
+
+          @if (currentTask.completed) {
+            <span
+              class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700 dark:bg-green-950/40 dark:text-green-400"
+            >
+              Completed
+            </span>
+          } @else {
+            <span
+              class="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-950/40 dark:text-blue-400"
+            >
+              In Progress
+            </span>
+          }
+
+        </div>
+
+      </div>
+
+
+      <!-- Description -->
+      <div class="border-t border-slate-200 pt-6 dark:border-slate-800">
+
+        <h3
+          class="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300"
+        >
+          Description
+        </h3>
+
+        @if (currentTask.description) {
+
+          <p
+            class="whitespace-pre-line text-sm leading-7 text-slate-600 dark:text-slate-400"
+          >
+            {{ currentTask.description }}
+          </p>
+
+        } @else {
+
+          <p class="text-sm italic text-slate-400">
+            No description provided.
+          </p>
+
+        }
+
+      </div>
+
+
+      <!-- Info -->
+      <div
+        class="mt-6 grid gap-4 border-t border-slate-200 pt-6 sm:grid-cols-2 dark:border-slate-800"
+      >
+
+        <div>
+          <p class="text-xs font-medium uppercase text-slate-400">
+            Due Date
+          </p>
+
+          <p class="mt-1 text-sm text-slate-700 dark:text-slate-300">
+            {{ currentTask.dueDate || 'No due date' }}
+          </p>
+        </div>
+
+        <div>
+          <p class="text-xs font-medium uppercase text-slate-400">
+            Created
+          </p>
+
+          <p class="mt-1 text-sm text-slate-700 dark:text-slate-300">
+            {{ currentTask.createdAt | date }}
+          </p>
+        </div>
+
+      </div>
+
+
+      <!-- Actions -->
+      <div
+        class="mt-8 flex flex-col gap-3 border-t border-slate-200 pt-6 sm:flex-row sm:justify-end dark:border-slate-800"
+      >
+
+        <a
+          [routerLink]="['/tasks', currentTask.id, 'edit']"
+          class="rounded-lg border border-slate-300 px-5 py-3 text-center text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+        >
+          Edit Task
+        </a>
+
+        <button
+          type="button"
+          (click)="deleteTask()"
+          class="rounded-lg bg-red-600 px-5 py-3 text-sm font-semibold text-white hover:bg-red-700"
+        >
+          Delete Task
+        </button>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

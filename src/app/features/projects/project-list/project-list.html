@@ -1,0 +1,131 @@
+<div class="space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900 dark:text-white">
+        Projects
+      </h1>
+
+      <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+        Manage and organize your projects.
+      </p>
+    </div>
+
+    <a
+      routerLink="/projects/new"
+      class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
+    >
+      <span class="text-lg">+</span>
+      New Project
+    </a>
+  </div>
+
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="flex items-center justify-center rounded-2xl border border-slate-200 bg-white p-12 dark:border-slate-800 dark:bg-slate-900">
+      <div class="flex items-center gap-3 text-slate-500 dark:text-slate-400">
+        <div class="h-5 w-5 animate-spin rounded-full border-2 border-slate-300 border-t-blue-600"></div>
+        Loading projects...
+      </div>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (errorMessage()) {
+    <div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-400">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  <!-- Empty -->
+  @if (!isLoading() && projects().length === 0 && !errorMessage()) {
+    <div class="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center dark:border-slate-700 dark:bg-slate-900">
+
+      <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-2xl dark:bg-blue-950/40">
+        📁
+      </div>
+
+      <h2 class="text-lg font-semibold text-slate-900 dark:text-white">
+        No projects yet
+      </h2>
+
+      <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+        Create your first project to get started.
+      </p>
+
+      <a
+        routerLink="/projects/new"
+        class="mt-5 inline-flex rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+      >
+        Create Project
+      </a>
+    </div>
+  }
+
+  <!-- Projects -->
+  @if (!isLoading() && projects().length > 0) {
+    <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+
+      @for (project of projects(); track project.id) {
+
+        <div class="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
+
+          <!-- Icon + Actions -->
+          <div class="flex items-start justify-between">
+
+            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-xl dark:bg-blue-950/40">
+              📁
+            </div>
+
+            <button
+              type="button"
+              (click)="deleteProject(project)"
+              class="rounded-lg px-2 py-1 text-sm text-slate-400 transition hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30"
+              title="Delete project"
+            >
+              🗑
+            </button>
+
+          </div>
+
+          <!-- Content -->
+          <div class="mt-5">
+
+            <h2 class="truncate text-lg font-semibold text-slate-900 dark:text-white">
+              {{ project.name }}
+            </h2>
+
+            <p class="mt-2 min-h-[48px] text-sm leading-6 text-slate-500 dark:text-slate-400">
+              {{ project.description || 'No description provided.' }}
+            </p>
+
+          </div>
+
+          <!-- Actions -->
+          <div class="mt-5 flex items-center gap-2 border-t border-slate-100 pt-4 dark:border-slate-800">
+
+            <a
+              [routerLink]="['/projects', project.id]"
+              class="flex-1 rounded-lg bg-slate-100 px-3 py-2 text-center text-sm font-medium text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+            >
+              View
+            </a>
+
+            <a
+              [routerLink]="['/projects', project.id, 'edit']"
+              class="flex-1 rounded-lg bg-blue-50 px-3 py-2 text-center text-sm font-medium text-blue-700 transition hover:bg-blue-100 dark:bg-blue-950/40 dark:text-blue-400"
+            >
+              Edit
+            </a>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+  }
+
+</div>

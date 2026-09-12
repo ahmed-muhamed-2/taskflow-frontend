@@ -1,0 +1,23 @@
+<div class="min-h-screen bg-slate-100 dark:bg-slate-950">
+
+  <div class="flex min-h-screen">
+
+    <!-- Sidebar -->
+    <app-sidebar></app-sidebar>
+
+    <!-- Main Content -->
+    <div class="flex min-w-0 flex-1 flex-col">
+
+      <!-- Navbar -->
+      <app-navbar></app-navbar>
+
+      <!-- Page Content -->
+      <main class="flex-1 p-4 sm:p-6 lg:p-8">
+        <router-outlet></router-outlet>
+      </main>
+
+    </div>
+
+  </div>
+
+</div>

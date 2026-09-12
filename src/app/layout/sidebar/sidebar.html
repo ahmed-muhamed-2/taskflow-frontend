@@ -1,0 +1,64 @@
+<aside
+  class="hidden w-64 shrink-0 border-r border-slate-200 bg-white lg:flex lg:flex-col dark:border-slate-800 dark:bg-slate-900"
+>
+  <!-- Logo -->
+  <div class="flex h-16 items-center border-b border-slate-200 px-6 dark:border-slate-800">
+    <div
+      class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 font-bold text-white"
+    >
+      T
+    </div>
+
+    <span class="ml-3 text-xl font-bold text-slate-900 dark:text-white">
+      TaskFlow
+    </span>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="flex-1 space-y-1 px-3 py-6">
+
+    <!-- Dashboard -->
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400"
+      class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
+    >
+      <span>📊</span>
+      <span>Dashboard</span>
+    </a>
+
+    <!-- Projects -->
+    <a
+      routerLink="/projects"
+      routerLinkActive="bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400"
+      class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
+    >
+      <span>📁</span>
+      <span>Projects</span>
+    </a>
+
+    <!-- Tasks -->
+    <a
+      routerLink="/tasks"
+      routerLinkActive="bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400"
+      class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
+    >
+      <span>✓</span>
+      <span>Tasks</span>
+    </a>
+
+  </nav>
+
+  <!-- Bottom -->
+  <div class="border-t border-slate-200 p-4 dark:border-slate-800">
+    <div class="rounded-xl bg-slate-50 p-4 dark:bg-slate-800">
+      <p class="text-sm font-semibold text-slate-900 dark:text-white">
+        TaskFlow
+      </p>
+
+      <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+        Manage your work efficiently.
+      </p>
+    </div>
+  </div>
+</aside>

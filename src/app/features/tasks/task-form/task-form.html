@@ -1,0 +1,195 @@
+<div class="mx-auto max-w-3xl">
+
+    <!-- Header -->
+    <div class="mb-8 flex items-center justify-between">
+
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">
+                {{ isEditMode() ? 'Edit Task' : 'Create New Task' }}
+            </h1>
+
+            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                {{
+                isEditMode()
+                ? 'Update your task information.'
+                : 'Add a new task to your workspace.'
+                }}
+            </p>
+        </div>
+
+        <a routerLink="/tasks"
+            class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
+            ← Back
+        </a>
+
+    </div>
+
+
+    <!-- Loading Task -->
+    @if (isLoadingTask()) {
+
+    <div class="rounded-2xl border border-slate-200 bg-white p-10 text-center dark:border-slate-800 dark:bg-slate-900">
+        <p class="text-sm text-slate-500 dark:text-slate-400">
+            Loading task...
+        </p>
+    </div>
+
+    } @else {
+
+    <!-- Form -->
+    <div
+        class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-8">
+
+        <!-- Error -->
+        @if (errorMessage()) {
+
+        <div
+            class="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-400">
+            {{ errorMessage() }}
+        </div>
+
+        }
+
+
+        <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+            <!-- Title -->
+            <div>
+
+                <label for="title" class="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                    Task Title
+                </label>
+
+                <input id="title" type="text" formControlName="title" placeholder="e.g. Implement login page"
+                    class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white" />
+
+                @if (
+                taskForm.controls.title.touched &&
+                taskForm.controls.title.invalid
+                ) {
+
+                <p class="mt-2 text-sm text-red-500">
+
+                    @if (taskForm.controls.title.errors?.['required']) {
+                    Title is required.
+                    }
+
+                    @if (taskForm.controls.title.errors?.['minlength']) {
+                    Title must be at least 2 characters.
+                    }
+
+                </p>
+
+                }
+
+            </div>
+
+
+            <!-- Description -->
+            <div>
+
+                <label for="description" class="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                    Description
+                </label>
+
+                <textarea id="description" formControlName="description" rows="5"
+                    placeholder="Describe what needs to be done..."
+                    class="w-full resize-none rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white"></textarea>
+
+            </div>
+
+
+            <!-- Priority + Due Date -->
+            <div class="grid gap-6 sm:grid-cols-2">
+
+                <!-- Priority -->
+                <div>
+
+                    <label for="priority" class="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                        Priority
+                    </label>
+
+                    <select id="priority" formControlName="priority"
+                        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white">
+
+                        @for (priority of priorities; track priority) {
+
+                        <option [value]="priority">
+                            {{ priority }}
+                        </option>
+
+                        }
+
+                    </select>
+
+                </div>
+
+
+                <!-- Due Date -->
+                <div>
+
+                    <label for="dueDate" class="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                        Due Date
+                    </label>
+
+                    <input id="dueDate" type="date" formControlName="dueDate"
+                        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white" />
+
+                </div>
+
+                <div>
+                    <label for="projectId" class="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                        Project
+                    </label>
+
+                    <select id="projectId" formControlName="projectId"
+                        class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-900 dark:text-white">
+                        <option [ngValue]="0">No Project</option>
+
+                        @for (project of projects(); track project.id) {
+                        <option [ngValue]="project.id">
+                            {{ project.name }}
+                        </option>
+                        }
+                    </select>
+
+                    @if (isLoadingProjects()) {
+                    <p class="mt-2 text-xs text-slate-500">
+                        Loading projects...
+                    </p>
+                    }
+                </div>
+
+            </div>
+
+
+            <!-- Actions -->
+            <div
+                class="flex flex-col-reverse gap-3 border-t border-slate-200 pt-6 dark:border-slate-800 sm:flex-row sm:justify-end">
+
+                <a routerLink="/tasks"
+                    class="rounded-lg border border-slate-300 px-5 py-3 text-center text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
+                    Cancel
+                </a>
+
+
+                <button type="submit" [disabled]="isLoading()"
+                    class="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60">
+
+                    @if (isLoading()) {
+                    Saving...
+                    } @else {
+                    {{ isEditMode() ? 'Save Changes' : 'Create Task' }}
+                    }
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    }
+
+</div>
